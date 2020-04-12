@@ -1,0 +1,16 @@
+{
+  "name": "you-read-my-mind-local",
+  "version": "1.0.0",
+  "repository": "https://github.com/taddison/you-read-my-mind-local.git",
+  "author": "Tim Addison <git@tjaddison.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
