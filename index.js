@@ -3,11 +3,11 @@ const bodyparser = require("body-parser");
 const morgan = require("morgan");
 
 const app = express();
-let sessions = [];
-let games = [{ gameId: "89" }];
-
 app.use(bodyparser.json());
 app.use(morgan("dev"));
+
+let sessions = [];
+let games = [{ gameId: "89" }];
 
 app.post("/createsession", (req, res, next) => {
   const { name, sessionId } = req.body;
@@ -55,19 +55,18 @@ app.post("/setgame", (req, res, next) => {
     psychicScore,
     guessedScore,
   });
-  
+
   res.status(200).end();
 });
 
-app.get('/getgame', (req, res, next) => {
+app.get("/getgame", (req, res, next) => {
   const { gameId } = req.body;
 
-  const game = games.find(g => g.gameId === gameId)
-  res.json(game)
-})
-
+  const game = games.find((g) => g.gameId === gameId);
+  res.json(game);
+});
 
 const port = process.env.PORT || 8881;
-const server = app.listen(port, function () {
+app.listen(port, function () {
   console.log(`Listening on ${port}`);
 });
