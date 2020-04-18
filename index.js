@@ -65,7 +65,7 @@ app.get('/getgame', (req, res, next) => {
   const game = games.find(g => g.gameId === gameId)
   res.json(game)
 })
-// getGame = (id)
+
 
 const port = process.env.PORT || 8881;
 const server = app.listen(port, function () {
