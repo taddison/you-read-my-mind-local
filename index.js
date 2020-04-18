@@ -4,14 +4,13 @@ const morgan = require("morgan");
 
 const app = express();
 let sessions = [];
-const games = [];
+let games = [{ gameId: "89" }];
 
 app.use(bodyparser.json());
 app.use(morgan("dev"));
 
 app.post("/createsession", (req, res, next) => {
-  const name = req.body.name;
-  const sessionId = req.body.sessionId;
+  const { name, sessionId } = req.body;
 
   sessions.push({ name, sessionId });
 
@@ -23,21 +22,49 @@ app.get("/getsessions", (req, res, next) => {
 });
 
 app.post("/deletesession", (req, res, next) => {
-  const {sessionId} = req.body;
-  sessions = sessions.filter(s => {s.id !== sessionId})
-  res.status(204).end()
+  const { sessionId } = req.body;
+  sessions = sessions.filter((s) => {
+    s.id !== sessionId;
+  });
+  res.status(204).end();
 });
-//  setGame = (id,
-//   {
-//     psychic,
-//     guesser,
-//     leftStatement,
-//     rightStatement,
-//     state,
-//     psychicSubject,
-//     psychicScore,
-//     guessedScore,
-//   })
+
+app.post("/setgame", (req, res, next) => {
+  const {
+    gameId,
+    psychic,
+    guesser,
+    leftStatement,
+    rightStatement,
+    state,
+    psychicSubject,
+    psychicScore,
+    guessedScore,
+  } = req.body;
+
+  let game = games.find((g) => g.gameId === gameId);
+
+  Object.assign(game, {
+    gameId,
+    psychic,
+    guesser,
+    leftStatement,
+    rightStatement,
+    state,
+    psychicSubject,
+    psychicScore,
+    guessedScore,
+  });
+  
+  res.status(200).end();
+});
+
+app.get('/getgame', (req, res, next) => {
+  const { gameId } = req.body;
+
+  const game = games.find(g => g.gameId === gameId)
+  res.json(game)
+})
 // getGame = (id)
 
 const port = process.env.PORT || 8881;
