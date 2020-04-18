@@ -59,7 +59,7 @@ app.post("/setgame", (req, res, next) => {
   res.status(200).end();
 });
 
-app.get("/getgame", (req, res, next) => {
+app.post("/getgame", (req, res, next) => {
   const { gameId } = req.body;
 
   const game = games.find((g) => g.gameId === gameId);
