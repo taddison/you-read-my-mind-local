@@ -7,25 +7,32 @@ app.use(bodyparser.json());
 app.use(morgan("dev"));
 
 let sessions = [];
-let games = [{ gameId: "89" }];
+let games = [{ gameId: 89 }];
 
 app.post("/createsession", (req, res, next) => {
-  const { name, sessionId } = req.body;
+  const { name, gameId, sessionId } = req.body;
 
-  sessions.push({ name, sessionId });
+  sessions.push({ name, gameId: parseInt(gameId), sessionId });
 
   res.status(201).end();
 });
 
-app.get("/getsessions", (req, res, next) => {
-  res.json(sessions);
+app.post("/getsessions", (req, res, next) => {
+  console.table(sessions);
+  const { gameId } = req.body;
+
+  const sessionsToReturn = sessions.filter(
+    (s) => s.gameId === parseInt(gameId)
+  );
+  res.json(sessionsToReturn);
 });
 
 app.post("/deletesession", (req, res, next) => {
-  const { sessionId } = req.body;
-  sessions = sessions.filter((s) => {
-    s.id !== sessionId;
-  });
+  let { sessionId, gameId } = req.body;
+  gameId = parseInt(gameId);
+  sessions = sessions.filter(
+    (s) => !(s.sessionId === sessionId && s.gameId === gameId)
+  );
   res.status(204).end();
 });
 
@@ -42,10 +49,9 @@ app.post("/setgame", (req, res, next) => {
     guessedScore,
   } = req.body;
 
-  let game = games.find((g) => g.gameId === gameId);
+  let game = games.find((g) => g.gameId === parseInt(gameId));
 
   Object.assign(game, {
-    gameId,
     psychic,
     guesser,
     leftStatement,
@@ -60,9 +66,10 @@ app.post("/setgame", (req, res, next) => {
 });
 
 app.post("/getgame", (req, res, next) => {
+  console.table(games);
   const { gameId } = req.body;
 
-  const game = games.find((g) => g.gameId === gameId);
+  const game = games.find((g) => g.gameId === parseInt(gameId));
   res.json(game);
 });
 
