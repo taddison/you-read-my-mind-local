@@ -59,7 +59,7 @@ app.post("/setgame", (req, res, next) => {
 app.post("/getgame", (req, res, next) => {
   console.table(games);
   const { gameId } = req.body;
-  
+
   const game = games.find((g) => g.gameId === parseInt(gameId));
   console.table(game.sessions);
 
