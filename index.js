@@ -7,6 +7,27 @@ app.use(bodyparser.json());
 app.use(morgan("dev"));
 
 let games = [{ gameId: 89, sessions: [] }];
+let cards = [
+  {
+    id: 1,
+    from: "Bad",
+    to: "Good",
+  },
+  {
+    id: 2,
+    from: "Sane",
+    to: "Insane",
+  },
+  {
+    id: 3,
+    from: "Tired",
+    to: "Wired",
+  },
+];
+
+app.get("/cards", (req, res, next) => {
+  res.status(200).json(cards);
+});
 
 app.post("/createsession", (req, res, next) => {
   const { name, gameId, sessionId } = req.body;
